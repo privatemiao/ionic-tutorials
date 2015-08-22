@@ -17,24 +17,18 @@ angular.module('starter', [ 'ionic' ])
 			StatusBar.styleDefault();
 		}
 	});
-})
-
-.config(function($stateProvider, $urlRouterProvider) {
+}).config(function($stateProvider, $urlRouterProvider) {
 	$stateProvider.state('login', {
-		url : '.login',
+		url : '/login',
 		templateUrl : 'templates/login.html',
 		controller : 'LoginController'
 	}).state('app', {
 		url : '/app',
-		templateUrl : 'template/app.html',
-		controller : 'AppCtroller'
+		templateUrl : 'templates/app.html',
+		controller : 'AppController'
 	});
 
 	$urlRouterProvider.otherwise('/login');
-})
-
-.controller('LoginController', function($scope) {
-
+}).controller('LoginController', function($scope) {
 }).controller('AppController', function($scope) {
-
 });
