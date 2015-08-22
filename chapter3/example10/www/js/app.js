@@ -31,4 +31,30 @@ angular.module('starter', [ 'ionic' ])
 	$urlRouterProvider.otherwise('/login');
 }).controller('LoginController', function($scope) {
 }).controller('AppController', function($scope) {
+	$scope.ratingArr = [ {
+		value : 1,
+		icon : 'ion-ios-star-outline'
+	}, {
+		value : 2,
+		icon : 'ion-ios-star-outline'
+	}, {
+		value : 3,
+		icon : 'ion-ios-star-outline'
+	}, {
+		value : 4,
+		icon : 'ion-ios-star-outline'
+	}, {
+		value : 5,
+		icon : 'ion-ios-star-outline'
+	} ];
+
+	$scope.setRating = function(val) {
+		for (var i = 0; i < $scope.ratingArr.length; i++) {
+			if (i < val) {
+				$scope.ratingArr[i].icon = 'ion-ios-star';
+			} else {
+				$scope.ratingArr[i].icon = 'ion-ios-star-outline';
+			}
+		}
+	};
 });

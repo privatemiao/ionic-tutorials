@@ -1,0 +1,13 @@
+<div class="list">
+	<label for="" class="item item-input">
+		<span class="input-label">Email</span>
+		<input type="email" data-ng-model="email" />
+	</label>
+	<label for="" class="item item-input">
+		<span class="input-label">Password</span>
+		<input type="password" data-ng-model="password" data-ng-minlength="3" />
+	</label>
+	<div class="padding">
+		<button class="button button-block button-positive" ui-sref="app" data-ng-disabled="!email || !password">Sign In</button>
+	</div>
+</div>

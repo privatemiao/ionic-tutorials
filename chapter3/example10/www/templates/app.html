@@ -1,0 +1,9 @@
+<div class="padding text-center">
+	<h3>Rate the App</h3>
+	<div>
+		<a href="javascript:" data-ng-repeat="r in ratingArr" class="padding" style="text-decoration: none;">
+			<i class="icon {{r.icon}}" data-ng-click="setRating(r.value)"></i>
+		</a>
+	</div>
+	<button class="button button-block button-clam" ui-sref="login">Sign Out</button>
+</div>
