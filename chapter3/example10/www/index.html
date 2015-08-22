@@ -25,10 +25,24 @@
 
     <ion-pane>
       <ion-header-bar class="bar-stable">
-        <h1 class="title">Ionic Blank Starter</h1>
+        <h1 class="title">My Awesome App</h1>
       </ion-header-bar>
-      <ion-content>
-      </ion-content>
+      <ion-nav-view class="has-header"></ion-nav-view>
     </ion-pane>
+
+	<script type="text/ng-template" id="templates/login.html">
+		<h1>Login Template</h1>    
+		<button class="button button-calm" ui-sref="app">To App</button>
+	</script>
+	<script type="text/ng-template" id="templates/app.html">
+		<h1>App Template</h1>
+		<button class="button button-rayal" ui-sref="login">To Login</button>
+	</script>
   </body>
 </html>
+
+
+
+
+
+
