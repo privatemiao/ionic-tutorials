@@ -22,6 +22,7 @@ angular.module('starter', [ 'ionic' ])
 	console.log('CONFIG...');
 }).factory('DataFactory', function($timeout, $q) {
 	console.log('FACTORY...');
+	
 	var API = {
 		getData : function(count) {
 			var deferred = $q.defer();
@@ -43,6 +44,8 @@ angular.module('starter', [ 'ionic' ])
 	return API;
 })
 .controller('AppController', function($scope, DataFactory){
+	console.log('CONTROLLER...');
+	
 	$scope.items = [];
 	
 	$scope.doRefresh = function(){
