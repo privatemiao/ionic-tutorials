@@ -17,10 +17,16 @@ angular.module('starter', [ 'ionic', 'ngCordova' ])
 			StatusBar.styleDefault();
 		}
 	});
-}).controller('ToastController', function($scope, $cordovaToast) {
-	this.show = function() {
-		$cordovaToast.show('This is long toast!', 'long', 'center').then(function(success) {
-		}, function(error) {
+}).controller('ToastController', function($cordovaToast, $cordovaDialogs, $scope) {
+	$scope.name = 'Mel';
+	$scope.changeName = function() {
+		$cordovaDialogs.prompt('Name please?', 'Identity', [ 'Cancel', 'OK' ], 'Harry Potter').then(function(result) {
+			if (result.buttonIndex == 2){
+				$scope.name = result.input1;
+				$cordovaToast.show('Change name Mel -> ' + $scope.name, 'long', 'center').then(function(success) {
+				}, function(error) {
+				});
+			}
 		});
 	};
 })
