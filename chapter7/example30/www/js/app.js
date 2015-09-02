@@ -17,7 +17,7 @@ angular.module('starter', [ 'ionic', 'ngCordova' ])
 			StatusBar.styleDefault();
 		}
 	});
-}).controller('ToastCtrl', [ '$ionicPlatform', '$cordovaToast', function($ionicPlatform, $cordovaToast) {
+}).controller('ToastController', function($ionicPlatform, $cordovaToast) {
 	$ionicPlatform.ready(function() {
 		$cordovaToast.show('This is a long toast!', 'long', 'center').then(function(success) {
 
@@ -25,4 +25,4 @@ angular.module('starter', [ 'ionic', 'ngCordova' ])
 
 		});
 	});
-} ])
+})
