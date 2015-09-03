@@ -17,14 +17,30 @@ angular.module('starter', [ 'ionic', 'ngCordova' ])
 			StatusBar.styleDefault();
 		}
 	});
-}).controller('PhotoController', function($q, $scope) {
-	$scope.takePhoto = function() {
-		navigator.camera.getPicture(function(result) {
-			console.log('Success->', result);
-		}, function(error) {
-			console.log('Error->', error);
-		}, {
-			quality : 100
-		})
-	};
+}).controller('PhotoController', function($ionicPlatform, $q, $scope, $cordovaImagePicker) {
+	$ionicPlatform.ready(function() {
+		$scope.takePhoto = function() {
+			navigator.camera.getPicture(function(result) {
+				console.log(result);
+			}, function(error) {
+				console.log(error);
+			}, {
+				quality : 100
+			});
+		};
+		$scope.pickPhoto = function() {
+			$cordovaImagePicker.getPictures({
+				maximumImageCount : 10,
+				width : 800,
+				height : 800,
+				quality : 80
+			}).then(function(results) {
+				for (var i = 0; i < results.length; i++) {
+					console.log('Image URI: ', results[i])
+				}
+			}, function(error) {
+				console.log('Error: ', error);
+			});
+		};
+	});
 })
