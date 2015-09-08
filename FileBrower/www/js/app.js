@@ -3,7 +3,7 @@
 // angular.module is a global place for creating, registering and retrieving Angular modules
 // 'starter' is the name of this angular module example (also set in a <body> attribute in index.html)
 // the 2nd parameter is an array of 'requires'
-angular.module('starter', [ 'ionic' ])
+angular.module('starter', [ 'ionic', 'ngCordova' ])
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
@@ -17,7 +17,7 @@ angular.module('starter', [ 'ionic' ])
 			StatusBar.styleDefault();
 		}
 	});
-}).controller('FileController', function($ionicPlatform, $scope, FileService) {
+}).controller('FileController', function($ionicPlatform, $scope, FileService, $cordovaDialogs) {
 	$ionicPlatform.ready(function() {
 		FileService.getEntriesAtRoot().then(function(result) {
 			$scope.files = result;
@@ -43,9 +43,34 @@ angular.module('starter', [ 'ionic' ])
 				console.error(error);
 			});
 		};
-		
-		$scope.pop = function(){
-			alert('EWlc');
+
+		$scope.pop = function() {
+			$cordovaDialogs.prompt('Location Please?', 'Location', [ 'Cancel', 'Okay' ], 'storage/emulated/0').then(function(result) {
+				if (result.buttonIndex == 2) {
+					var path = result.input1;
+					if (path == '') {
+						return;
+					}
+					path = 'file:///' + path;
+					FileService.getEntries(path).then(function(result) {
+						$scope.files = result;
+						$scope.files.unshift({
+							name : '[parent]'
+						});
+						FileService.getParentDirectory(path).then(function(result) {
+							result.name = '[parent]';
+							$scope.files[0] = result;
+						}, function(error) {
+							console.error(error);
+						});
+					}, function(error) {
+						console.error(error);
+					});
+
+				}
+			}, function(error) {
+				console.error(error);
+			});
 		};
 
 	});
