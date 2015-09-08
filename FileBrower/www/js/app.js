@@ -17,22 +17,25 @@ angular.module('starter', [ 'ionic' ])
 			StatusBar.styleDefault();
 		}
 	});
-}).controller('FileController', function($ionicPlatform, $scope) {
+}).controller('FileController', function($ionicPlatform, $scope, FileService) {
 	$ionicPlatform.ready(function() {
-		console.log('Ionic Device Ready');
+		FileService.getEntriesAtRoot().then(function(result) {
+			$scope.files = result;
+		}, function(error) {
+			console.error(error);
+		});
 
-		$scope.echo = function() {
-			console.log('Welcome');
-			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
-				var directory = fileSystem.root.createReader();
-				directory.readEntries(function(entries) {
-					console.log('Entries->', entries);
-					var buffer = [];
-					entries.forEach(function(entry) {
-						console.log('Name->', entry.name);
-						buffer.push(entry.name);
-					})
-					alert(buffer.join(' | '));
+		$scope.getContent = function(path) {
+			console.log('NativeURL->', path);
+
+			FileService.getEntries(path).then(function(result) {
+				$scope.files = result;
+				$scope.files.unshift({
+					name : '[parent]'
+				});
+				FileService.getParentDirectory(path).then(function(result) {
+					result.name = '[parent]';
+					$scope.files[0] = result;
 				}, function(error) {
 					console.error(error);
 				});
@@ -40,5 +43,54 @@ angular.module('starter', [ 'ionic' ])
 				console.error(error);
 			});
 		};
+		
+		$scope.pop = function(){
+			alert('EWlc');
+		};
+
 	});
+}).factory('FileService', function($q) {
+	return {
+		getParentDirectory : function(path) {
+			var deferred = $q.defer();
+			window.resolveLocalFileSystemURL(path, function(fileSystem) {
+				fileSystem.getParent(function(result) {
+					deferred.resolve(result);
+				}, function(error) {
+					deferred.reject(error);
+				});
+			}, function(error) {
+				deferred.reject(error);
+			});
+			return deferred.promise;
+		},
+		getEntriesAtRoot : function() {
+			var deferred = $q.defer();
+			window.requestFileSystem(LocalFileSystem.PERSISTENT, 0, function(fileSystem) {
+				var directoryReader = fileSystem.root.createReader();
+				directoryReader.readEntries(function(entries) {
+					deferred.resolve(entries);
+				}, function(error) {
+					deferred.reject(error);
+				});
+			}, function(error) {
+				deferred.reject(error);
+			});
+			return deferred.promise;
+		},
+		getEntries : function(path) {
+			var deferred = $q.defer();
+			window.resolveLocalFileSystemURL(path, function(fileSystem) {
+				var directoryReader = fileSystem.createReader();
+				directoryReader.readEntries(function(entries) {
+					deferred.resolve(entries);
+				}, function(error) {
+					deferred.reject(error);
+				});
+			}, function(error) {
+				deferred.reject(error);
+			});
+			return deferred.promise;
+		}
+	};
 })
