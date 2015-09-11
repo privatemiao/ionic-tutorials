@@ -20,8 +20,6 @@ angular.module('generic.controllers', [])
 //							console.log('FileEntry->', fileEntry);
 						});
 					});
-					
-					
 				}, '上传照片', ['确定', '取消'])
 			});
 		};// end upload
