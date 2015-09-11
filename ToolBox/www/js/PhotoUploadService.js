@@ -1,15 +1,19 @@
-angular.module('generic.services', [])
-.factory('PhotoUploadService', ['$q', function($q){
+angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$ionicLoading', function($q, $ionicLoading) {
 	return {
-		getAllPhotos : function(callBack){
+		getAllPhotos : function(callBack) {
 			var photos = [];
-			CameraRoll.getPhotos(function(photo){
-				if (photo){
+			$ionicLoading.show({
+				template : '读取照片...'
+			});
+			CameraRoll.getPhotos(function(photo) {
+				if (photo) {
 					photos.push(photo);
-				}else{
+					console.log('Size->', photos.length);
+				} else {
+					$ionicLoading.hide();
 					callBack(photos);
 				}
 			});
 		}
 	};
-}])
+} ])
