@@ -1,4 +1,4 @@
-angular.module('generic', [ 'ionic', 'ngCordova', 'generic.controllers' ])
+angular.module('generic', [ 'ionic', 'ngCordova', 'generic.controllers', 'generic.services' ])
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
