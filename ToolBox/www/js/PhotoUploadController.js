@@ -11,13 +11,13 @@ angular.module('generic.controllers', [])
 					$cordovaToast.show('没有找到照片！', 'long', 'center');
 					return;
 				}
-				navigator.notification.confirm('确定要上传吗？', function(result){
+				navigator.notification.confirm('确定要上传 '+photos.length+' 张照片吗？', function(result){
 					if (result != 1){
 						return;
 					}
 					photos.forEach(function(photo){
 						resolveLocalFileSystemURL(photo, function(fileEntry) {
-							console.log('FileEntry->', fileEntry);
+//							console.log('FileEntry->', fileEntry);
 						});
 					});
 					
