@@ -1,4 +1,4 @@
-angular.module('generic', [ 'ionic' ])
+angular.module('generic', [ 'ionic', 'ngCordova', 'generic.controllers' ])
 
 .run(function($ionicPlatform) {
 	$ionicPlatform.ready(function() {
@@ -25,7 +25,8 @@ angular.module('generic', [ 'ionic' ])
 		url : '/photo/upload',
 		views : {
 			'tab-photo' : {
-				templateUrl : 'partial/tab-photo-upload.html'
+				templateUrl : 'partial/tab-photo-upload.html',
+				controller : 'PhotoUploadController'
 			}
 		}
 	}).state('tab.photo-view', {
