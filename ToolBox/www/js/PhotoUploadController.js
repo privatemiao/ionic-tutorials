@@ -1,10 +1,12 @@
 angular.module('generic.controllers', [])
-.controller('PhotoUploadController', [ '$scope', '$ionicPlatform', 'PhotoUploadService', '$cordovaToast', function($scope, $ionicPlatform, PhotoUploadService, $cordovaToast) {
+.controller('PhotoUploadController', [ '$scope', '$ionicPlatform', 'PhotoUploadService', '$cordovaToast', '$ionicLoading', function($scope, $ionicPlatform, PhotoUploadService, $cordovaToast, $ionicLoading) {
 	$ionicPlatform.ready(function() {
 		$scope.upload = function() {
+			$ionicLoading.show({
+				template : '读取照片...'
+			});
 			PhotoUploadService.getAllPhotos(function(photos){
-				console.log('Photos->', photos.length);
-				//navigator.notification.confirm(message, confirmCallback, [title], [buttonLabels])
+				$ionicLoading.hide();
 				if (photos.length == 0){
 					$cordovaToast.show('没有找到照片！', 'long', 'center');
 					return;
