@@ -15,13 +15,19 @@ angular.module('generic.controllers', []).controller('PhotoUploadController',
 								return;
 							}
 
-							$scope.photos.forEach(function(photo) {
+							var photos = angular.copy($scope.photos);
+							(function uploadNextPhoto(photo) {
 								PhotoUploadService.upload(photo).then(function(success) {
-									console.log(success);
+//									console.log(success);
 								}, function(error) {
-									console.log(error);
+//									console.log(error);
+								}).finally(function(){
+									if (photos.length > 0){
+										uploadNextPhoto(photos.splice(0, 1)[0]);
+									}
 								});
-							});
+							})(photos.splice(0, 1)[0]);
+							
 
 						}, '上传照片', [ '确定', '取消' ])
 					}, (function() {
