@@ -1,4 +1,4 @@
-angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$ionicLoading', function($q, $ionicLoading) {
+angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$ionicLoading', '$timeout', function($q, $ionicLoading, $timeout) {
 	return {
 		getAllPhotos : function(callBack, photos) {
 			photos;
@@ -9,8 +9,10 @@ angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$i
 				if (photo) {
 					photos.push(photo);
 				} else {
-					$ionicLoading.hide();
-					callBack();
+					$timeout(function() {
+						$ionicLoading.hide();
+						callBack();
+					}, 2000);
 				}
 			});
 		}
