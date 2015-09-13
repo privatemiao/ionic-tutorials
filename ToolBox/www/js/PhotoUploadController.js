@@ -4,9 +4,7 @@ angular.module('generic.controllers', []).controller('PhotoUploadController',
 				$scope.photos = [];
 				$scope.upload = function() {
 					$scope.photos = [];
-					$ionicLoading.show({
-						template : '读取照片...'
-					});
+					
 					PhotoUploadService.getAllPhotos(function() {
 						if ($scope.photos.length == 0) {
 							$cordovaToast.show('没有找到照片！', 'long', 'center');

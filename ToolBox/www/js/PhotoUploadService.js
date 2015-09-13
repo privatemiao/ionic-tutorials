@@ -12,7 +12,7 @@ angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$i
 					$timeout(function() {
 						$ionicLoading.hide();
 						callBack();
-					}, 2000);
+					}, 500);
 				}
 			});
 		}
