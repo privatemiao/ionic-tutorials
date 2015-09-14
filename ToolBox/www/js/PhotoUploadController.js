@@ -21,9 +21,9 @@ angular.module('generic.controllers', []).controller('PhotoUploadController',
 							(function uploadNextPhoto(photo) {
 								$scope.progressCount ++;
 								PhotoUploadService.upload(photo).then(function(success) {
-									console.log(success);
+									console.log(JSON.stringify(success));
 								}, function(error) {
-									console.log(error);
+									console.log(JSON.stringify(error));
 								}).finally(function(){
 									if (photos.length > 0){
 										uploadNextPhoto(photos.splice(0, 1)[0]);
