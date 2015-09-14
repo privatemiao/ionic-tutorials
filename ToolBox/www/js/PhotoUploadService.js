@@ -1,5 +1,5 @@
 angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$ionicLoading', '$timeout', function($q, $ionicLoading, $timeout) {
-	var uri = encodeURI('http://192.168.8.100:8080/upload');
+	var uri = encodeURI('http://192.168.45.94:8080/upload');
 
 	return {
 		getAllPhotos : function(callBack, photos) {
@@ -33,6 +33,21 @@ angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$i
 						mimeType : file.type
 					});
 				});
+			});
+			return deferred.promise;
+		},
+		showTmpDir : function(){
+			var path = cordova.file.tempDirectory;
+			var deferred = $q.defer();
+			window.resolveLocalFileSystemURL(path, function(fileSystem) {
+				var directoryReader = fileSystem.createReader();
+				directoryReader.readEntries(function(entries) {
+					deferred.resolve(entries);
+				}, function(error) {
+					deferred.reject(error);
+				});
+			}, function(error) {
+				deferred.reject(error);
 			});
 			return deferred.promise;
 		}

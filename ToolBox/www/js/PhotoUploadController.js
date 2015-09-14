@@ -2,8 +2,10 @@ angular.module('generic.controllers', []).controller('PhotoUploadController',
 		[ '$scope', '$ionicPlatform', 'PhotoUploadService', '$cordovaToast', '$ionicLoading', '$timeout', function($scope, $ionicPlatform, PhotoUploadService, $cordovaToast, $ionicLoading, $timeout) {
 			$ionicPlatform.ready(function() {
 				$scope.photos = [];
+				$scope.progressCount = 0;
 				$scope.upload = function() {
 					$scope.photos = [];
+					$scope.progressCount = 0;
 
 					PhotoUploadService.getAllPhotos(function() {
 						if ($scope.photos.length == 0) {
@@ -17,13 +19,21 @@ angular.module('generic.controllers', []).controller('PhotoUploadController',
 
 							var photos = angular.copy($scope.photos);
 							(function uploadNextPhoto(photo) {
+								$scope.progressCount ++;
 								PhotoUploadService.upload(photo).then(function(success) {
-//									console.log(success);
+									console.log(success);
 								}, function(error) {
-//									console.log(error);
+									console.log(error);
 								}).finally(function(){
 									if (photos.length > 0){
 										uploadNextPhoto(photos.splice(0, 1)[0]);
+									}else{
+										console.log('完成！');
+										PhotoUploadService.showTmpDir().then(function(entries){
+											$cordovaToast.show('完成！临时文件数量：' + entries.length, 'long', 'center');
+										}, function(error){
+											
+										});
 									}
 								});
 							})(photos.splice(0, 1)[0]);
