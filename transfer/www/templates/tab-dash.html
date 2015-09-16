@@ -28,7 +28,8 @@
       <div class="item item-divider">UploadFile</div>
       <div class="item item-body">
         <div>
-        	<button class="button button-assertive button-block" data-ng-click="upload()">Upload - {{progress}}</button>
+        	<progress id="progress" max="100" value="0"></progress>
+        	<button class="button button-assertive button-block" data-ng-click="upload()">Upload</button>
         </div>
       </div>
     </div>
