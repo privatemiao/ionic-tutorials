@@ -1,6 +1,6 @@
 angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$ionicLoading', '$timeout', function($q, $ionicLoading, $timeout) {
-	var uri = encodeURI('http://192.168.8.100:8080/upload');
-
+	var uri = encodeURI('http://192.168.45.94:8080/upload');
+	var progress = document.getElementById('progress');
 	return {
 		getAllPhotos : function(callBack, photos) {
 			photos;
@@ -20,14 +20,15 @@ angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$i
 		},
 		upload : function(photo) {
 			var deferred = $q.defer();
+			progress.value = 0;
 			resolveLocalFileSystemURL(photo, function(fileEntry) {
 				fileEntry.file(function(file) {
 					var ft = new FileTransfer();
 					ft.onprogress = function(progressEvent) {
 					    if (progressEvent.lengthComputable) {
-					      console.log(((progressEvent.loaded / progressEvent.total).toFixed(2) * 100) + "%");
+					      progress.value = ((progressEvent.loaded / progressEvent.total).toFixed(2) * 100);
 					    } else {
-					    	console.log('100%');
+					    	progress.value = 100;
 					    }
 					};
 					ft.upload(file.localURL, uri, function(response) {
