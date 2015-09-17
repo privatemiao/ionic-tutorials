@@ -31,10 +31,11 @@
       <ion-content>
         <div class="list">
             <div data-ng-repeat="file in files">
-                <a href="#" class="item item-icon-left" data-ng-click="getContent(file.nativeURL)">
+                <a href="#" class="item item-icon-left" data-ng-click="getContent(file.nativeURL, file)">
                     <i class="icon ion-folder" data-ng-show="file.isDirectory"></i>
                     <i class="icon ion-document" data-ng-show="file.isFile"></i>
-                    {{file.name}}
+                    {{file.name}}<br>
+                    {{progress}}
                 </a>
             </div>
         </div>
