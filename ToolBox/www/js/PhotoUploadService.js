@@ -1,6 +1,7 @@
 angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$ionicLoading', '$timeout', function($q, $ionicLoading, $timeout) {
-	var uri = encodeURI('http://192.168.45.94:8080/upload');
+	var uri = encodeURI('http://192.168.8.100:8080/upload');
 	var progress = document.getElementById('progress');
+	var img = document.getElementById('img');
 	return {
 		getAllPhotos : function(callBack, photos) {
 			photos;
@@ -22,29 +23,33 @@ angular.module('generic.services', []).factory('PhotoUploadService', [ '$q', '$i
 			var deferred = $q.defer();
 			progress.value = 0;
 			resolveLocalFileSystemURL(photo, function(fileEntry) {
+				img.src = fileEntry.toInternalURL();
 				fileEntry.file(function(file) {
-					var ft = new FileTransfer();
-					ft.onprogress = function(progressEvent) {
-					    if (progressEvent.lengthComputable) {
-					      progress.value = ((progressEvent.loaded / progressEvent.total).toFixed(2) * 100);
-					    } else {
-					    	progress.value = 100;
-					    }
-					};
-					ft.upload(file.localURL, uri, function(response) {
-						deferred.resolve(response);
-					}, function(error) {
-						deferred.reject(error);
-					}, {
-						fileKey : 'file',
-						fileName : file.name,
-						mimeType : file.type
-					});
+					console.log(fileEntry.toInternalURL(), file.type);
+					if (file.type == 'image/jpeg'){
+						var ft = new FileTransfer();
+						ft.onprogress = function(progressEvent) {
+							if (progressEvent.lengthComputable) {
+								progress.value = ((progressEvent.loaded / progressEvent.total).toFixed(2) * 100);
+							} else {
+								progress.value = 100;
+							}
+						};
+						ft.upload(file.localURL, uri, function(response) {
+							deferred.resolve(response);
+						}, function(error) {
+							deferred.reject(error);
+						}, {
+							fileKey : 'file',
+							fileName : file.name,
+							mimeType : file.type
+						});
+					}
 				});
 			});
 			return deferred.promise;
 		},
-		showTmpDir : function(){
+		showTmpDir : function() {
 			var path = cordova.file.tempDirectory;
 			var deferred = $q.defer();
 			window.resolveLocalFileSystemURL(path, function(fileSystem) {
