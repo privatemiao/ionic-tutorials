@@ -1,5 +1,5 @@
 /.project
-resources
-lib
-platform
-plugin
+#resources
+#lib
+#platform
+#plugin
